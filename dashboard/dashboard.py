@@ -6,8 +6,8 @@ import seaborn as sns
 st.title("Dashboard Analisis Penyewaan Sepeda")
 st.markdown('Berbagai Faktor yang Memengaruhi Jumlah Penyewaan Sepeda')
 
-df_day = pd.read_csv('df_day.csv')
-df_hour = pd.read_csv('df_hour.csv')
+df_day = pd.read_csv('dashboard/df_day.csv')
+df_hour = pd.read_csv('dashboard/df_hour.csv')
 
 df_day['dteday'] = pd.to_datetime(df_day['dteday'])
 df_hour['dteday'] = pd.to_datetime(df_hour['dteday'])
