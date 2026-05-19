@@ -119,7 +119,7 @@ else:
     df_normal = df_kerja[~df_kerja['hr'].isin(jam_terpilih)]
     
     rata_jam_terpilih = df_sibuk['cnt'].mean()
-    rata_jam_normal = df_normal['cnt'].mean() if not df_biasa.empty else 0
+    rata_jam_normal = df_normal['cnt'].mean() if not df_normal.empty else 0
     
     if rata_jam_normal> 0:
         persentase_peningkatan = ((rata_jam_terpilih - rata_jam_normal) / rata_jam_normal) * 100
