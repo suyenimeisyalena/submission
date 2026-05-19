@@ -82,7 +82,7 @@ sns.heatmap(pivot_cuaca, cmap='YlOrRd', cbar_kws={'label': 'Rata-Rata Sepeda Ter
 ax.invert_yaxis() # Suhu dingin di bawah, panas di atas
 
 ax.set_xlabel('Jam (00:00 - 23:00)')
-ax.set_ylabel('Suhu Riil (°C)')
+ax.set_ylabel('Suhu (°C)')
 plt.grid(False)
 
 st.pyplot(fig)
