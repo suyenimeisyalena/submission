@@ -60,14 +60,6 @@ with col1:
 with col2:
     st.metric(label="Rata-rata Penyewaan Sepeda / Hari", value=f"{main_df_day['cnt'].mean():,.0f}")
 
-st.subheader("Tren Penyewaan Sepeda dalam Waktu Mingguan")
-df_weekly_trend = main_df_day.set_index('dteday').resample(rule='W').agg({
-    'cnt': 'sum',
-    'casual': 'sum',
-    'registered': 'sum'
-})
-st.line_chart(df_weekly_trend)
-
 # Visualisasi Pertanyaan Nomor 2
 df_multiselect = main_df_hour.copy()
 st.subheader("Jumlah Penyewaan Sepeda Berdasarkan Pilihan Jam")
