@@ -69,7 +69,6 @@ korelasi_suhu = df_cuaca['temp'].corr(df_cuaca['cnt'])
 suhu_puncak = df_cuaca.groupby('temp')['cnt'].mean().idxmax()
 
 st.metric(label="Suhu Yang Paling Disukai", value=f"{suhu_puncak:.1f} °C")
-st.markdown("---")
 
 st.subheader("Visualisasi Kepadatan Penyewaan Sepeda (Jam vs Suhu)")
 st.caption("*Cara membaca:* Semakin **merah pekat** warnanya, maka pada jam dan suhu tersebut menunjukkan **tingginya minat penyewa sepeda**")
@@ -126,7 +125,6 @@ else:
             delta=f"{persentase_peningkatan:.1f}%"
         )
 
-    st.markdown("---")
     st.subheader("Grafik Tren Hari Kerja vs Hari Libur")
     df_multiselect['day_type'] = df_multiselect['workingday'].map({1: 'Hari Kerja', 0: 'Hari Libur'})
     fig, ax = plt.subplots(figsize=(12, 5))
