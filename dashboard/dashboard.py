@@ -98,33 +98,3 @@ with col_right:
     ax.set_xlabel("Kondisi Cuaca")
     ax.set_ylabel("Rata-Rata Jumlah Penyewaan Sepeda")
     st.pyplot(fig)
-
-
-import streamlit as st
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-# Pastikan variabel main_df_hour sudah terdefinisi dari filter tahun 2012 sebelumnya
-
-st.header("Analisis Korelasi Cuaca & Waktu (Tahun 2012)")
-st.write("Bagian ini menampilkan bagaimana kombinasi antara jam harian dan suhu udara memengaruhi total volume penyewaan sepeda.")
-
-# 1. MEMBUAT SUMMARY METRIC (Biar dasbor terlihat profesional)
-# Kita hitung nilai korelasi Pearson asli antara suhu dan total rental
-nilai_korelasi = main_df_hour['temp'].corr(main_df_hour['cnt'])
-
-col1, col2 = st.columns(2)
-with col1:
-    st.metric(
-        label="Kekuatan Korelasi (Suhu vs Jumlah Sewa)", 
-        value=f"{nilai_korelasi:.2f}", 
-        help="Nilai mendekati 1 berarti hubungan positif kuat (makin hangat makin ramai)"
-    )
-with col2:
-    # Mengambil suhu rata-rata di mana rental paling banyak terjadi
-    suhu_terramai = main_df_hour.groupby('temp')['cnt'].mean().idxmax()
-    # Jika suhu sudah dikonversi ke Celcius asli, tampilkan langsung
-    st.metric(label="Suhu dengan Rata-rata Rental Tertinggi", value=f"{suhu_terramai:.1f} °C")
-
-st.markdown("---")
