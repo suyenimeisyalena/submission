@@ -62,7 +62,7 @@ with col2:
 
 # Visualisasi Nomor 1
 df_cuaca = main_df_hour.copy()
-st.header("Hubungan Pengaruh Cuaca & Waktu terhadap Penyewaan Sepeda Tahun 2012")
+st.header("Hubungan Pengaruh Cuaca & Waktu terhadap Penyewaan Sepeda")
 st.write("Menampilkan pengaruh suhu dan jam harian terhadap jumlah penyewaan sepeda")
 
 korelasi_suhu = df_cuaca['temp'].corr(df_cuaca['cnt'])
@@ -144,7 +144,7 @@ else:
     for j in jam_terpilih:
         ax.axvline(x=j, color='red', linestyle='--', alpha=0.4)
         
-    ax.set_title('Tren Penyewaan Sepeda Berdasarkan Jam Terpilih (2012)', fontsize=12)
+    ax.set_title('Tren Penyewaan Sepeda Berdasarkan Jam Terpilih', fontsize=12)
     ax.set_xlabel('Jam (00:00 - 23:00)')
     ax.set_ylabel('Rata-rata Jumlah Penyewaan Sepeda')
     ax.set_xticks(range(0, 24))
