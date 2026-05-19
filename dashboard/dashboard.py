@@ -68,45 +68,13 @@ df_weekly_trend = main_df_day.set_index('dteday').resample(rule='W').agg({
 })
 st.line_chart(df_weekly_trend)
 
-# Visualisasi
-col_left, col_right = st.columns(2)
-
-with col_left:
-    st.subheader("Jumlah Penyewa Sepeda Berdasarkan Jam")
-    hourly_pattern = main_df_hour.groupby(by='hr').agg({'cnt': 'mean'}).reset_index()
-    
-    fig, ax = plt.subplots(figsize=(6, 4))
-    sns.lineplot(data=hourly_pattern, x='hr', y='cnt', marker='o', ax=ax)
-    ax.set_xlabel("Waktu")
-    ax.set_ylabel("Rata-Rata Jumlah Penyewaan Sepeda")
-    st.pyplot(fig)
-
-with col_right:
-    st.subheader("Pengaruh Cuaca Terhadap Jumlah Penyewaan Sepeda")
-    weather_pattern = main_df_hour.groupby(by='weathersit').agg({'cnt': 'mean'}).reset_index()
-    weather_map = {
-        1: 'Cerah', 
-        2: 'Mendung', 
-        3: 'Cuaca Buruk Ringan', 
-        4: 'Cuaca Ekstrim'
-    }
-    weather_pattern['weathersit'] = weather_pattern['weathersit'].map(weather_map)
-    weather_pattern = weather_pattern.sort_values(by='cnt', ascending=False)
-
-    fig, ax = plt.subplots(figsize=(6, 4))
-    sns.barplot(data=weather_pattern, x='weathersit', y='cnt', palette='Blues_r', ax=ax)
-    ax.set_xlabel("Kondisi Cuaca")
-    ax.set_ylabel("Rata-Rata Jumlah Penyewaan Sepeda")
-    st.pyplot(fig)
-
 # Visualisasi Pertanyaan Nomor 2
 df_multiselect = main_df_hour.copy()
-st.header("Jumlah Penyewaan Sepeda Berdasarkan Pilihan Jam")
-st.write("Pilih jam secara spesifik untuk melihat grafik.")
+st.subheader("Jumlah Penyewaan Sepeda Berdasarkan Pilihan Jam")
 
 opsi_jam = list(range(0, 24))
 jam_terpilih = st.multiselect(
-    "Pilih Jam yang Ingin Dianalisis:",
+    "Pilih jam yang ingin dianalisis:",
     options=opsi_jam,
     default=[7, 8, 9, 17, 18, 19]
 )
