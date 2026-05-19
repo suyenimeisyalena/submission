@@ -75,11 +75,10 @@ nilai_workingday = 1 if pilihan_hari == "Hari Kerja" else 0
 if not jam_terpilih:
     st.warning("Silakan pilih minimal satu jam pada menu di atas untuk menampilkan data.")
 else:
-    df_filter_hari = df_multiselect[df_multiselect['workingday'] == nilai_workingday]
-    df_sibuk = df_filter_hari[df_filter_hari['hr'].isin(jam_terpilih)]
-    df_normal = df_filter_hari[~df_filter_hari['hr'].isin(jam_terpilih)]
+    df_sibuk = df_multiselect[df_multiselect['hr'].isin(jam_terpilih)]
+    df_normal = df_multiselect[~df_multiselect['hr'].isin(jam_terpilih)]
     
-    rata_jam_terpilih = df_sibuk['cnt'].mean()
+    rata_jam_terpilih = df_sibuk['cnt'].mean() if not df_sibuk.empty else 0
     rata_jam_normal = df_normal['cnt'].mean() if not df_normal.empty else 0
     
     if rata_jam_normal> 0:
@@ -96,7 +95,7 @@ else:
         st.metric(
             label="Selisih Performa", 
             value=f"{persentase_peningkatan:.1f}%", 
-            delta="Dinamis"
+            delta=f"{persentase_peningkatan:.1f}%"
         )
 
     st.markdown("---")
