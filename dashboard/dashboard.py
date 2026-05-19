@@ -70,13 +70,14 @@ jam_terpilih = st.multiselect(
     options=opsi_jam,
     default=[7, 8, 9, 17, 18, 19]
 )
+
+nilai_workingday = 1 if pilihan_hari == "Hari Kerja" else 0
 if not jam_terpilih:
     st.warning("Silakan pilih minimal satu jam pada menu di atas untuk menampilkan data.")
 else:
-    df_kerja = df_multiselect[df_multiselect['workingday'] == 1]
-    
-    df_sibuk = df_kerja[df_kerja['hr'].isin(jam_terpilih)]
-    df_normal = df_kerja[~df_kerja['hr'].isin(jam_terpilih)]
+    df_filter_hari = df_multiselect[df_multiselect['workingday'] == nilai_workingday]
+    df_sibuk = df_filter_hari[df_filter_hari['hr'].isin(jam_terpilih)]
+    df_normal = df_filter_hari[~df_filter_hari['hr'].isin(jam_terpilih)]
     
     rata_jam_terpilih = df_sibuk['cnt'].mean()
     rata_jam_normal = df_normal['cnt'].mean() if not df_normal.empty else 0
