@@ -98,3 +98,71 @@ with col_right:
     ax.set_xlabel("Kondisi Cuaca")
     ax.set_ylabel("Rata-Rata Jumlah Penyewaan Sepeda")
     st.pyplot(fig)
+
+# Visualisasi Pertanyaan Nomor 2
+df_multiselect = main_df_hour.copy()
+st.header("Jumlah Penyewaan Sepeda Berdasarkan Pilihan Jam")
+st.write("Pilih jam secara spesifik untuk melihat grafik.")
+
+opsi_jam = list(range(0, 24))
+jam_terpilih = st.multiselect(
+    "Pilih Jam yang Ingin Dianalisis:",
+    options=opsi_jam,
+    default=[7, 8, 9, 17, 18, 19]
+)
+if not jam_terpilih:
+    st.warning("Silakan pilih minimal satu jam pada menu di atas untuk menampilkan data.")
+else:
+    df_kerja = df_multiselect[df_multiselect['workingday'] == 1]
+    
+    df_sibuk = df_kerja[df_kerja['hr'].isin(jam_terpilih)]
+    df_normal = df_kerja[~df_kerja['hr'].isin(jam_terpilih)]
+    
+    rata_jam_terpilih = df_sibuk['cnt'].mean()
+    rata_jam_normal = df_normal['cnt'].mean() if not df_biasa.empty else 0
+    
+    if rata_jam_normal> 0:
+        persentase_peningkatan = ((rata_jam_terpilih - rata_jam_normal) / rata_jam_normal) * 100
+    else:
+        persentase_peningkatan = 0
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric(label="Rata-rata Jam Lainnya", value=f"{rata_jam_normal:.0f} sepeda")
+    with col2:
+        st.metric(label="Rata-rata Jam Terpilih", value=f"{rata_jam_terpilih:.0f} sepeda")
+    with col3:
+        st.metric(
+            label="Selisih Performa", 
+            value=f"{persentase_peningkatan:.1f}%", 
+            delta="Dinamis"
+        )
+
+    st.markdown("---")
+    st.subheader("Grafik Tren Hari Kerja vs Hari Libur")
+    df_multiselect['day_type'] = df_multiselect['workingday'].map({1: 'Hari Kerja', 0: 'Hari Libur'})
+    fig, ax = plt.subplots(figsize=(12, 5))
+    
+    # Grafik garis utama
+    sns.lineplot(
+        data=df_multiselect, 
+        x='hr', 
+        y='cnt', 
+        hue='day_type', 
+        palette={'Hari Kerja': "#347900", 'Hari Libur': "#0e4eff"},
+        marker='o',
+        ax=ax
+    )
+    
+    # Garis vertikal putus-putus untuk setiap jam yang dipilih
+    for j in jam_terpilih:
+        ax.axvline(x=j, color='red', linestyle='--', alpha=0.4)
+        
+    ax.set_title('Tren Penyewaan Sepeda Berdasarkan Jam Terpilih (2012)', fontsize=12)
+    ax.set_xlabel('Jam (00:00 - 23:00)')
+    ax.set_ylabel('Rata-rata Jumlah Penyewaan Sepeda')
+    ax.set_xticks(range(0, 24))
+    ax.grid(True, linestyle=':', alpha=0.5)
+    ax.legend(title="Status Hari")
+    
+    st.pyplot(fig)
