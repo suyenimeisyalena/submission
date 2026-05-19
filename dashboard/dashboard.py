@@ -68,16 +68,11 @@ st.write("Menampilkan pengaruh suhu dan jam harian terhadap jumlah penyewaan sep
 korelasi_suhu = df_cuaca['temp'].corr(df_cuaca['cnt'])
 suhu_puncak = df_cuaca.groupby('temp')['cnt'].mean().idxmax()
 
-col1, col2 = st.columns(2)
-with col1:
-    st.metric(label="Hubungan Temperatur dan Jumlah Penyewaan Sepeda", value="Semakin Hangat = Semakin Banyak Peminat", delta=f"Skor Korelasi: {korelasi_suhu:.2f}")
-with col2:
-    st.metric(label="Suhu Yang Paling Disukai", value=f"{suhu_puncak:.1f} °C")
-
+st.metric(label="Suhu Yang Paling Disukai", value=f"{suhu_puncak:.1f} °C")
 st.markdown("---")
 
 st.subheader("Visualisasi Kepadatan Penyewaan Sepeda (Jam vs Suhu)")
-st.caption("*Cara membaca:* Semakin **merah pekat** warnanya, maka pada jam dan suhu tersebut sepeda **tingginya minat penyewa sepeda**")
+st.caption("*Cara membaca:* Semakin **merah pekat** warnanya, maka pada jam dan suhu tersebut menunjukkan **tingginya minat penyewa sepeda**")
 
 df_cuaca['Suhu (°C)'] = df_cuaca['temp'].round(0).astype(int)
 pivot_cuaca = df_cuaca.pivot_table(index='Suhu (°C)', columns='hr', values='cnt', aggfunc='mean').fillna(0)
